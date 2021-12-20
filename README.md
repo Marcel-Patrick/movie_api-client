@@ -96,3 +96,15 @@ Actors view:
 Profile view, single movie view, and all movies view:
 
 - Allow users to create a “To Watch” list in addition to their “Favorite Movies” list
+
+### Setup:
+
+---
+
+1. Installing the Right Dependencies
+   Dependencies are what your application needs for both development and production, while development dependencies are only necessary during development.
+
+- In order to use Parcel in movie_api-client, you first need to install it globally:
+  use `npm install -g parcel@next` command for Terminal
+- Now, now navigate to “movie_api-client” project folder in terminal, then run the following commands to install packages and dependencies you need for React application development:
+  use `npm install --save react react-dom command` for Terminal
