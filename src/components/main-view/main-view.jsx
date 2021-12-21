@@ -24,7 +24,10 @@ export class MainView extends React.Component {
             Birth: "1939-04-07",
             Death: "--",
           },
-          ImagePath: "../../../img/theGodfather.jpg",
+          ImagePath: new URL(
+            "../../img/theGodfather.jpg?as=webp&width=250",
+            import.meta.url
+          ),
           Featured: true,
         },
         {
@@ -43,7 +46,10 @@ export class MainView extends React.Component {
             Birth: "1959-01-28",
             Death: "--",
           },
-          ImagePath: "../../../img/TheShawshankRedemption.jpg",
+          ImagePath: new URL(
+            "../../img/TheShawshankRedemption.jpg?as=webp&width=250",
+            import.meta.url
+          ),
           Featured: true,
         },
         {
@@ -62,7 +68,10 @@ export class MainView extends React.Component {
             Birth: "1946-12-18",
             Death: "--",
           },
-          ImagePath: "../../../img/SchindlersList.jpg",
+          ImagePath: new URL(
+            "../../img/SchindlersList.jpg?as=webp&width=250",
+            import.meta.url
+          ),
           Featured: true,
         },
       ],
