@@ -1,6 +1,7 @@
-import React from "react";
+// movie-card.jsx
 
-import { MovieCard } from "../movie-card/movie-card";
+import React from "react";
+import PropTypes from "prop-types";
 
 export class MovieCard extends React.Component {
   render() {
@@ -18,3 +19,21 @@ export class MovieCard extends React.Component {
     );
   }
 }
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string,
+    }).isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string,
+      Birth: PropTypes.string,
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired,
+  }).isRequired,
+  onMovieClick: PropTypes.func.isRequired,
+};
