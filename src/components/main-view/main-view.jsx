@@ -65,6 +65,7 @@ export class MainView extends React.Component {
     if (registerNewUser)
       return (
         <RegistrationView
+          onLoggedIn={(user) => this.onLoggedIn(user)}
           userRegistration={(newUser) => this.userRegistration(newUser)}
         />
       );
@@ -106,3 +107,29 @@ export class MainView extends React.Component {
     );
   }
 }
+
+MainView.propTypes = {
+  movies: PropTypes.arrayOf(PropTypes.string),
+
+  selectedMovie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string,
+    }).isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string,
+      Birth: PropTypes.string,
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired,
+  }),
+
+  registerNewUser: PropTypes.bool, //boolean, because is user registrated or not?
+
+  user: PropTypes.shape({
+    Username: PropTypes.string,
+    Password: PropTypes.string,
+  }),
+};
