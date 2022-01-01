@@ -2,6 +2,13 @@
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import "./login-view.scss";
 
 export function LoginView(props) {
@@ -22,42 +29,58 @@ export function LoginView(props) {
   };
 
   return (
-    <div>
-      <form>
-        <h1>User Log In:</h1>
-        <div>
-          <label>
-            <p>Username:</p>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>Password:</p>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <button type="submit" onClick={handleSubmit}>
-            Log In
-          </button>
-        </div>
-        <div>
-          <p>Or:</p>
-          <button type="button" onClick={handleRegistration}>
-            Create Account
-          </button>
-        </div>
-      </form>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <CardGroup>
+            <Card>
+              <Card.Body>
+                <Card.Title>Welcome to your Log In:</Card.Title>
+                <Form>
+                  <Form.Group>
+                    <Form.Label>Username:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      // required
+                      placeholder="Ernter your Username"
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      // required
+                      placeholder="Ernter your Password"
+                    />
+                  </Form.Group>
+                  <Button
+                    className="mr-3"
+                    variant="primary"
+                    type="submit"
+                    onClick={handleSubmit}
+                  >
+                    Log In
+                  </Button>
+                  Or:
+                  <Button
+                    className="ml-3"
+                    variant="secondary"
+                    type="button"
+                    onClick={handleRegistration}
+                  >
+                    Create an Account
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </CardGroup>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

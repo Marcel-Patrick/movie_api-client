@@ -107,4 +107,22 @@ Profile view, single movie view, and all movies view:
 - In order to use Parcel in movie_api-client, you first need to install it globally:
   use `npm install -g parcel@next` command for Terminal
 - Now, now navigate to “movie_api-client” project folder in terminal, then run the following commands to install packages and dependencies you need for React application development:
-  use `npm install --save react react-dom command` for Terminal
+  use `npm install --save react react-dom` command for Terminal
+
+- to use the actual list of movies from movie_apiDB, it´s needed to perform an ajax operation. For this, First install the Axios library:
+  use `npm install axios --save` command for Terminal
+
+- As props transmit data between components in a React application, propTypes validate the data types based on the app’s configuration. To avoid errors and bugs, install propTypes:
+  use `npm install --save prop-types` command for Terminal
+
+- A small help:
+  If the images on the movie view are not getting displayed, there must be an issue with the links stored in the database.
+  To fix that, add crossOrigin="anonymous" to the <img> tag, to avoid this error.
+
+2. To Design a propper UI (User Interface)
+   Half the work of a frontend developer is ensuring that the user interfaces (UIs) they code resemble the prototypes they receive from their designers as closely as possible.
+   Design systems are often used by product teams to ensure consistent styling and branding across a product, creating a uniform and coherent experience for users.
+   A design system is essentially a library of UI components applied to one or several products.
+
+- For ths App we use React Bootstrap. In order to use React Bootstrap in movie_api-client, install it:
+  use `npm install --save react-bootstrap` command for Terminal

@@ -3,6 +3,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import CardGroup from "react-bootstrap/CardGroup";
+
 import "./main-view.scss";
 
 import { RegistrationView } from "../registration-view/registration-view"; // this view is used to create new user account
@@ -85,26 +89,32 @@ export class MainView extends React.Component {
 
     // to show up all movies or a selected single movie in the DOM
     return (
-      <div className="main-view">
+      <Row className="main-view justify-content-md-center">
         {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            onBackClick={(newSelectedMovie) => {
-              this.setSelectedMovie(newSelectedMovie);
-            }}
-          />
-        ) : (
-          movies.map((movie) => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onMovieClick={(movie) => {
-                this.setSelectedMovie(movie);
+          <Col md={4} sm={6} xs={8}>
+            <MovieView
+              movie={selectedMovie}
+              onBackClick={(newSelectedMovie) => {
+                this.setSelectedMovie(newSelectedMovie);
               }}
             />
+          </Col>
+        ) : (
+          movies.map((movie) => (
+            <Col md={3} sm={6} xs={12}>
+              <CardGroup className="cardStyle">
+                <MovieCard
+                  key={movie._id}
+                  movie={movie}
+                  onMovieClick={(movie) => {
+                    this.setSelectedMovie(movie);
+                  }}
+                />
+              </CardGroup>
+            </Col>
           ))
         )}
-      </div>
+      </Row>
     );
   }
 }
