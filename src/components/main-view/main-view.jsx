@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import "./main-view.scss";
 
 import { RegistrationView } from "../registration-view/registration-view"; // this view is used to create new user account
 import { LoginView } from "../login-view/login-view"; // this view is used to let users log in to thier account
