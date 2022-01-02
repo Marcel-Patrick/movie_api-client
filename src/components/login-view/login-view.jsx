@@ -58,16 +58,16 @@ export function LoginView(props) {
                     />
                   </Form.Group>
                   <Button
-                    className="mr-3"
+                    className="mt-3"
                     variant="primary"
                     type="submit"
                     onClick={handleSubmit}
                   >
                     Log In
                   </Button>
-                  Or:
+                  {"   "}
                   <Button
-                    className="ml-3"
+                    className="mt-3"
                     variant="secondary"
                     type="button"
                     onClick={handleRegistration}

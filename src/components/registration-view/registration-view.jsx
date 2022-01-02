@@ -9,7 +9,7 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// import "./registration-view.scss";
+import "./registration-view.scss";
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState("");

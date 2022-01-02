@@ -1,11 +1,13 @@
 // main-view.jsx
 
 import React from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CardGroup from "react-bootstrap/CardGroup";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
 
 import "./main-view.scss";
 
@@ -89,58 +91,44 @@ export class MainView extends React.Component {
 
     // to show up all movies or a selected single movie in the DOM
     return (
-      <Row className="main-view justify-content-md-center">
-        {selectedMovie ? (
-          <Col md={4} sm={6} xs={8}>
-            <MovieView
-              movie={selectedMovie}
-              onBackClick={(newSelectedMovie) => {
-                this.setSelectedMovie(newSelectedMovie);
-              }}
-            />
-          </Col>
-        ) : (
-          movies.map((movie) => (
-            <Col md={3} sm={6} xs={12}>
-              <CardGroup className="cardStyle">
-                <MovieCard
-                  key={movie._id}
-                  movie={movie}
-                  onMovieClick={(movie) => {
-                    this.setSelectedMovie(movie);
-                  }}
-                />
-              </CardGroup>
+      <div className="main-view">
+        <Navbar bg="dark" variant="dark" className="mb-3">
+          <Container fluidr>
+            <Navbar.Brand href="#home">MovieFlex</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+              <Nav.Link href="#features">Logout</Nav.Link>
+              <Nav.Link href="#pricing">Contact</Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar>
+        <Row className="justify-content-center">
+          {selectedMovie ? (
+            <Col md={6} sm={8} xs={12}>
+              <MovieView
+                movie={selectedMovie}
+                onBackClick={(newSelectedMovie) => {
+                  this.setSelectedMovie(newSelectedMovie);
+                }}
+              />
             </Col>
-          ))
-        )}
-      </Row>
+          ) : (
+            movies.map((movie) => (
+              <Col md={3} sm={6} xs={12}>
+                <CardGroup className="cardStyle">
+                  <MovieCard
+                    key={movie._id}
+                    movie={movie}
+                    onMovieClick={(movie) => {
+                      this.setSelectedMovie(movie);
+                    }}
+                  />
+                </CardGroup>
+              </Col>
+            ))
+          )}
+        </Row>
+      </div>
     );
   }
 }
-
-MainView.propTypes = {
-  movies: PropTypes.arrayOf(PropTypes.string),
-
-  selectedMovie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string,
-    }).isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string,
-      Birth: PropTypes.string,
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }),
-
-  registerNewUser: PropTypes.bool, //boolean, because is user registrated or not?
-
-  user: PropTypes.shape({
-    Username: PropTypes.string,
-    Password: PropTypes.string,
-  }),
-};
