@@ -93,12 +93,12 @@ export class MainView extends React.Component {
     return (
       <div className="main-view">
         <Navbar bg="dark" variant="dark" className="mb-3">
-          <Container fluidr>
+          <Container fluid>
             <Navbar.Brand href="#home">MovieFlex</Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#features">Logout</Nav.Link>
-              <Nav.Link href="#pricing">Contact</Nav.Link>
+              <Nav.Link href="#logout">Logout</Nav.Link>
+              <Nav.Link href="#contact">Contact</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
@@ -114,10 +114,9 @@ export class MainView extends React.Component {
             </Col>
           ) : (
             movies.map((movie) => (
-              <Col md={3} sm={6} xs={12}>
+              <Col md={3} sm={6} xs={12} key={movie._id}>
                 <CardGroup className="cardStyle">
                   <MovieCard
-                    key={movie._id}
                     movie={movie}
                     onMovieClick={(movie) => {
                       this.setSelectedMovie(movie);

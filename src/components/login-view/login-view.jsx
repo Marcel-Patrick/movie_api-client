@@ -9,6 +9,8 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import "./login-view.scss";
 
 export function LoginView(props) {
@@ -29,58 +31,69 @@ export function LoginView(props) {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <CardGroup>
-            <Card>
-              <Card.Body>
-                <Card.Title>Welcome to your Log In:</Card.Title>
-                <Form>
-                  <Form.Group>
-                    <Form.Label>Username:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      // required
-                      placeholder="Ernter your Username"
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      // required
-                      placeholder="Ernter your Password"
-                    />
-                  </Form.Group>
-                  <Button
-                    className="mt-3"
-                    variant="primary"
-                    type="submit"
-                    onClick={handleSubmit}
-                  >
-                    Log In
-                  </Button>
-                  {"   "}
-                  <Button
-                    className="mt-3"
-                    variant="secondary"
-                    type="button"
-                    onClick={handleRegistration}
-                  >
-                    Create an Account
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          </CardGroup>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Navbar bg="dark" variant="dark" className="mb-3">
+        <Container fluid>
+          <Navbar.Brand href="#home">MovieFlex</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#createAccount">Create Account</Nav.Link>
+            <Nav.Link href="#contact">Contact</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <Container>
+        <Row>
+          <Col>
+            <CardGroup>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Welcome to your Log In:</Card.Title>
+                  <Form>
+                    <Form.Group>
+                      <Form.Label>Username:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        // required
+                        placeholder="Ernter your Username"
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Password:</Form.Label>
+                      <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        // required
+                        placeholder="Ernter your Password"
+                      />
+                    </Form.Group>
+                    <Button
+                      className="mt-3"
+                      variant="primary"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      Log In
+                    </Button>
+                    {"   "}
+                    <Button
+                      className="mt-3"
+                      variant="secondary"
+                      type="button"
+                      onClick={handleRegistration}
+                    >
+                      Create an Account
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </CardGroup>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
