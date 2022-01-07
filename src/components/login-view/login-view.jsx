@@ -85,7 +85,8 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-  Username: PropTypes.string,
-  Password: PropTypes.string,
-  onClick: PropTypes.func,
+  username: PropTypes.string,
+  password: PropTypes.string,
+  onLoggedIn: PropTypes.func.isRequired,
+  userRegistration: PropTypes.func.isRequired,
 };

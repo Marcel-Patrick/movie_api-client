@@ -16,6 +16,7 @@ export function RegistrationView(props) {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +24,8 @@ export function RegistrationView(props) {
       "username: " + username,
       "password: " + password,
       "passwordRepeat: " + passwordRepeat,
-      "email:" + email
+      "email: " + email,
+      "birthday: " + birthday
     );
     // Send a request to the server for authentication
     // then call props.onLoggedIn(username)
@@ -55,6 +57,7 @@ export function RegistrationView(props) {
                       placeholder="Ernter a Username"
                     />
                   </Form.Group>
+
                   <Form.Group>
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
@@ -66,6 +69,7 @@ export function RegistrationView(props) {
                       placeholder="Ernter a Password (6 or more Characrets)"
                     />
                   </Form.Group>
+
                   <Form.Group>
                     <Form.Label>Repeat Password:</Form.Label>
                     <Form.Control
@@ -76,6 +80,7 @@ export function RegistrationView(props) {
                       placeholder="Repeat your Password"
                     />
                   </Form.Group>
+
                   <Form.Group className="mb-3">
                     <Form.Label>Email Address:</Form.Label>
                     <Form.Control
@@ -86,6 +91,17 @@ export function RegistrationView(props) {
                       placeholder="Enter your Email"
                     />
                   </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Birthday</Form.Label>
+                    <Form.Control
+                      className="mb-3"
+                      type="date"
+                      value={birthday}
+                      onChange={(e) => setBirthday(e.target.value)}
+                    />
+                  </Form.Group>
+
                   <Button className="mb-5" type="submit" onClick={handleSubmit}>
                     Create Account
                   </Button>
@@ -109,9 +125,11 @@ export function RegistrationView(props) {
 }
 
 RegistrationView.propTypes = {
-  Username: PropTypes.string,
-  Password: PropTypes.string,
-  RepeatPassword: PropTypes.string,
-  Email: PropTypes.string,
-  onClick: PropTypes.func,
+  username: PropTypes.string,
+  password: PropTypes.string,
+  passwordRepeat: PropTypes.string,
+  email: PropTypes.string,
+  birthday: PropTypes.string,
+  onLoggedIn: PropTypes.func.isRequired,
+  userRegistration: PropTypes.func.isRequired,
 };
