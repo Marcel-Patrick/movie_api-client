@@ -1,0 +1,10 @@
+// movie-view.scss
+
+.movie-poster {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+.movie-poster:hover {
+  box-shadow: 0 0 5px 4px rgba(0, 19, 186, 0.733);
+}

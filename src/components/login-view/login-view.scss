@@ -1,0 +1,25 @@
+// login-view.scsss
+
+/* Full-width input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+button {
+  background-color: #868686;
+  margin-top: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+button:hover {
+  opacity: 1;
+}
