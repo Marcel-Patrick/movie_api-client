@@ -11,18 +11,60 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import axios from "axios";
 import "./login-view.scss";
 
 export function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // Declare hook for each input
+  const [usernameErr, setUsernameErr] = useState("");
+  const [passwordErr, setPasswordErr] = useState("");
+
+  // validate user inputs
+  const validate = () => {
+    let isReq = true;
+    if (!username) {
+      setUsernameErr("Please enter your Username!");
+      isReq = false;
+    } else if (username.length < 2) {
+      setUsernameErr("Username must be 2 characters long");
+      isReq = false;
+    }
+    if (!password) {
+      setPasswordErr("Please enter your Password!");
+      isReq = false;
+    } else if (password.length < 2) {
+      setPasswordErr("Password must be 6 characters long");
+      isReq = false;
+    }
+
+    return isReq;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    // Send a request to the server for authentication
-    // then call props.onLoggedIn(username)
-    props.onLoggedIn(username);
+    const isReq = validate();
+    // if all required fields are correctly set, start conneting to the server
+    if (isReq) {
+      /* Send a request to the server for authentication */
+      axios
+        .post("https://fathomless-plains-90381.herokuapp.com/login", {
+          Username: username,
+          Password: password,
+        })
+        .then((response) => {
+          const data = response.data;
+          props.onLoggedIn(data);
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log("no such user");
+          console.log(username);
+          console.log(password);
+          console.log(e);
+        });
+    }
   };
 
   const handleRegistration = () => {
@@ -34,10 +76,10 @@ export function LoginView(props) {
     <div>
       <Navbar bg="dark" variant="dark" className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="#home">MovieFlex</Navbar.Brand>
+          <Navbar.Brand>MovieFlex</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#createAccount">Create Account</Nav.Link>
-            <Nav.Link href="#contact">Contact</Nav.Link>
+            <Nav.Link onClick={handleRegistration}>Create Account</Nav.Link>
+            <Nav.Link>Contact</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -49,7 +91,7 @@ export function LoginView(props) {
                 <Card.Body>
                   <Card.Title>Welcome to your Log In:</Card.Title>
                   <Form>
-                    <Form.Group>
+                    <Form.Group controlId="formUsername">
                       <Form.Label>Username:</Form.Label>
                       <Form.Control
                         type="text"
@@ -58,8 +100,10 @@ export function LoginView(props) {
                         // required
                         placeholder="Ernter your Username"
                       />
+                      {/* code added here to display validation error */}
+                      {usernameErr && <p>{usernameErr}</p>}
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group controlId="formPassword">
                       <Form.Label>Password:</Form.Label>
                       <Form.Control
                         type="password"
@@ -68,6 +112,8 @@ export function LoginView(props) {
                         // required
                         placeholder="Ernter your Password"
                       />
+                      {/* code added here to display validation error */}
+                      {passwordErr && <p>{passwordErr}</p>}
                     </Form.Group>
                     <Button
                       className="mt-3"

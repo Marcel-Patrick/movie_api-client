@@ -15,6 +15,10 @@ import { RegistrationView } from "../registration-view/registration-view"; // th
 import { LoginView } from "../login-view/login-view"; // this view is used to let users log in to thier account
 import { MovieCard } from "../movie-card/movie-card"; // this view is showing up infirmation about a single movie
 import { MovieView } from "../movie-view/movie-view"; // this view returns a list of all movies in the database
+import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
+import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
+
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // to show up the all movies from database
 export class MainView extends React.Component {
@@ -30,16 +34,13 @@ export class MainView extends React.Component {
 
   // use of Axios Library to fetch movies list
   componentDidMount() {
-    axios
-      .get("https://fathomless-plains-90381.herokuapp.com/movies")
-      .then((response) => {
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem("user"),
       });
+      this.getMovies(accessToken);
+    }
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -58,15 +59,46 @@ export class MainView extends React.Component {
   }
 
   // When a user successfully logs in, this function updates the `user` property in state to that particular user
-  onLoggedIn(user) {
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user, // it s the short form of user: user,
+      user: authData.user.Username,
+    });
+
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
+  }
+
+  // To get the List of Movies or the a single movie returned from the database
+  getMovies(token) {
+    axios
+      .get("https://fathomless-plains-90381.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        // Assign the result to the state
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // Logout and remove local storage data (username and JWT-token)
+  onLoggedOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.setState({
+      user: null,
     });
   }
 
   // to make the view of a single movie
   render() {
-    const { movies, selectedMovie, registerNewUser, user } = this.state;
+    const { movies, registerNewUser, user } = this.state;
 
     // User registration to create a new user account
     if (registerNewUser)
@@ -91,18 +123,85 @@ export class MainView extends React.Component {
 
     // to show up all movies or a selected single movie in the DOM
     return (
-      <div className="main-view">
-        <Navbar bg="dark" variant="dark" className="mb-3">
-          <Container fluid>
-            <Navbar.Brand href="#home">MovieFlex</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#logout">Logout</Nav.Link>
-              <Nav.Link href="#contact">Contact</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-        <Row className="justify-content-center">
+      <Router>
+        <div className="main-view">
+          <Navbar bg="dark" variant="dark" className="mb-3">
+            <Container fluid>
+              <Navbar.Brand>MovieFlex</Navbar.Brand>
+              <Nav className="me-auto">
+                <Nav.Link>Home</Nav.Link>
+                <Nav.Link
+                  onClick={() => {
+                    this.onLoggedOut();
+                  }}
+                >
+                  Logout
+                </Nav.Link>
+                <Nav.Link>Contact</Nav.Link>
+              </Nav>
+            </Container>
+          </Navbar>
+
+          <Row className="main-view justify-content-md-center">
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return movies.map((m) => (
+                  <Col md={3} sm={6} xs={12} key={m._id}>
+                    <MovieCard movie={m} />
+                  </Col>
+                ));
+              }}
+            />
+            <Route
+              path="/movies/:movieId"
+              render={({ match }) => {
+                return (
+                  <Col md={6} sm={8} xs={12}>
+                    <MovieView
+                      movie={movies.find((m) => m._id === match.params.movieId)}
+                    />
+                  </Col>
+                );
+              }}
+            />
+            <Route
+              path="/director/:name"
+              render={({ match }) => {
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={6} sm={8} xs={12}>
+                    <DirectorView
+                      director={
+                        movies.find(
+                          (m) => m.Director.Name === match.params.name
+                        ).Director
+                      }
+                    />
+                  </Col>
+                );
+              }}
+            />
+            <Route
+              path="/genre/:name"
+              render={({ match }) => {
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={6} sm={8} xs={12}>
+                    <GenreView
+                      genre={
+                        movies.find((m) => m.Genre.Name === match.params.name)
+                          .Genre
+                      }
+                    />
+                  </Col>
+                );
+              }}
+            />
+          </Row>
+
+          {/* <Row className="justify-content-center">
           {selectedMovie ? (
             <Col md={6} sm={8} xs={12}>
               <MovieView
@@ -126,8 +225,9 @@ export class MainView extends React.Component {
               </Col>
             ))
           )}
-        </Row>
-      </div>
+        </Row> */}
+        </div>
+      </Router>
     );
   }
 }

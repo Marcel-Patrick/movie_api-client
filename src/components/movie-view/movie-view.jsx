@@ -26,8 +26,17 @@ export class MovieView extends React.Component {
           <Card.Text>{movie.Description}</Card.Text>
         </Card.Body>
         <ListGroup className="list-group-flush">
-          <ListGroupItem>Genre: {movie.Genre.Name}</ListGroupItem>
-          <ListGroupItem>Director: {movie.Director.Name}</ListGroupItem>
+          <ListGroupItem>
+            Genre:{" "}
+            <Link to={`/genres/${movie.Genre.Name}`}>
+              <Button variant="link">{movie.Genre.Name}</Button>
+            </Link>
+          </ListGroupItem>
+          <ListGroupItem>
+            <Link to={`/directors/${movie.Director.Name}`}>
+              <Button variant="link">Director: {movie.Director.Name}</Button>
+            </Link>
+          </ListGroupItem>
         </ListGroup>
         <Card.Body>
           <Button
