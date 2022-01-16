@@ -2,16 +2,13 @@
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 import "./registration-view.scss";
 
 export function RegistrationView(props) {
@@ -101,110 +98,90 @@ export function RegistrationView(props) {
     }
   };
 
-  const handleRegistration = () => {
-    console.log(false + " register view");
-    props.userRegistration(false);
-  };
-
   return (
-    <div>
-      <Navbar bg="dark" variant="dark" className="mb-3">
-        <Container fluid>
-          <Navbar.Brand>MovieFlex</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link onClick={handleRegistration}>Login</Nav.Link>
-            <Nav.Link>Contact</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      <Container>
-        <Row>
-          <Col>
-            <CardGroup>
-              <Card>
-                <Card.Body>
-                  <Card.Title>Create your Account:</Card.Title>
+    <CardGroup>
+      <Card>
+        <Card.Body>
+          <Card.Title>Create your Account:</Card.Title>
 
-                  <Form>
-                    <Form.Group controlId="formUsername">
-                      <Form.Label>Username:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        // required
-                        placeholder="Enter a Username"
-                      />
-                      {/* code added here to display validation error */}
-                      {usernameErr && <p>{usernameErr}</p>}
-                    </Form.Group>
+          <Form>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username:</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                // required
+                placeholder="Enter a Username"
+              />
+              {/* code added here to display validation error */}
+              {usernameErr && <p>{usernameErr}</p>}
+            </Form.Group>
 
-                    <Form.Group controlId="formPassword">
-                      <Form.Label>Password:</Form.Label>
-                      <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        // required
-                        // minLength="6"
-                        placeholder="Enter a Password (6 or more Characrets)"
-                      />
-                      {/* code added here to display validation error */}
-                      {passwordErr && <p>{passwordErr}</p>}
-                    </Form.Group>
+            <Form.Group controlId="formPassword">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                // required
+                // minLength="6"
+                placeholder="Enter a Password (6 or more Characrets)"
+              />
+              {/* code added here to display validation error */}
+              {passwordErr && <p>{passwordErr}</p>}
+            </Form.Group>
 
-                    <Form.Group controlId="formPasswordRepeat">
-                      <Form.Label>Repeat Password:</Form.Label>
-                      <Form.Control
-                        type="password"
-                        value={passwordRepeat}
-                        onChange={(e) => setPasswordRepeat(e.target.value)}
-                        // required
-                        placeholder="Repeat your Password"
-                      />
-                      {/* code added here to display validation error */}
-                      {passwordRepeatErr && <p>{passwordRepeatErr}</p>}
-                    </Form.Group>
+            <Form.Group controlId="formPasswordRepeat">
+              <Form.Label>Repeat Password:</Form.Label>
+              <Form.Control
+                type="password"
+                value={passwordRepeat}
+                onChange={(e) => setPasswordRepeat(e.target.value)}
+                // required
+                placeholder="Repeat your Password"
+              />
+              {/* code added here to display validation error */}
+              {passwordRepeatErr && <p>{passwordRepeatErr}</p>}
+            </Form.Group>
 
-                    <Form.Group controlId="Email" className="mb-3">
-                      <Form.Label>Email Address:</Form.Label>
-                      <Form.Control
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder="Enter your Email"
-                      />
-                      {/* code added here to display validation error */}
-                      {emailErr && <p>{emailErr}</p>}
-                    </Form.Group>
+            <Form.Group controlId="Email" className="mb-3">
+              <Form.Label>Email Address:</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your Email"
+              />
+              {/* code added here to display validation error */}
+              {emailErr && <p>{emailErr}</p>}
+            </Form.Group>
 
-                    <Form.Group controlId="updateBirthday">
-                      <Form.Label>Birthday</Form.Label>
-                      <Form.Control
-                        className="mb-3"
-                        type="date"
-                        value={birthday}
-                        onChange={(e) => setBirthday(e.target.value)}
-                      />
-                    </Form.Group>
+            <Form.Group controlId="updateBirthday">
+              <Form.Label>Birthday</Form.Label>
+              <Form.Control
+                className="mb-3"
+                type="date"
+                value={birthday}
+                onChange={(e) => setBirthday(e.target.value)}
+              />
+            </Form.Group>
 
-                    <Button className="mb-5" type="submit" onClick={handleSubmit}>
-                      Create Account
-                    </Button>
+            <Button className="mb-5" type="submit" onClick={handleSubmit}>
+              Create Account
+            </Button>
 
-                    <p>You already have an account?</p>
-                    <Button variant="secondary" type="button" onClick={handleRegistration}>
-                      Go on and Log In
-                    </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </CardGroup>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+            <p>You already have an account?</p>
+            <Link to={"/"}>
+              <Button variant="secondary" type="button">
+                Go on and Log In
+              </Button>
+            </Link>
+          </Form>
+        </Card.Body>
+      </Card>
+    </CardGroup>
   );
 }
 
@@ -214,6 +191,4 @@ RegistrationView.propTypes = {
   passwordRepeat: PropTypes.string,
   email: PropTypes.string,
   birthday: PropTypes.string,
-  onLoggedIn: PropTypes.func.isRequired,
-  userRegistration: PropTypes.func.isRequired,
 };

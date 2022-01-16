@@ -2,16 +2,13 @@
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 import "./login-view.scss";
 
 export function LoginView(props) {
@@ -67,74 +64,49 @@ export function LoginView(props) {
     }
   };
 
-  const handleRegistration = () => {
-    console.log(true + " log view");
-    props.userRegistration(true);
-  };
-
   return (
-    <div>
-      <Navbar bg="dark" variant="dark" className="mb-3">
-        <Container fluid>
-          <Navbar.Brand>MovieFlex</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link onClick={handleRegistration}>Create Account</Nav.Link>
-            <Nav.Link>Contact</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      <Container>
-        <Row>
-          <Col>
-            <CardGroup>
-              <Card>
-                <Card.Body>
-                  <Card.Title>Welcome to your Log In:</Card.Title>
-                  <Form>
-                    <Form.Group controlId="formUsername">
-                      <Form.Label>Username:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        // required
-                        placeholder="Enter your Username"
-                      />
-                      {/* code added here to display validation error */}
-                      {usernameErr && <p>{usernameErr}</p>}
-                    </Form.Group>
-                    <Form.Group controlId="formPassword">
-                      <Form.Label>Password:</Form.Label>
-                      <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        // required
-                        placeholder="Enter your Password"
-                      />
-                      {/* code added here to display validation error */}
-                      {passwordErr && <p>{passwordErr}</p>}
-                    </Form.Group>
-                    <Button className="mt-3" variant="primary" type="submit" onClick={handleSubmit}>
-                      Log In
-                    </Button>
-                    {"   "}
-                    <Button
-                      className="mt-3"
-                      variant="secondary"
-                      type="button"
-                      onClick={handleRegistration}
-                    >
-                      Create an Account
-                    </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </CardGroup>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <CardGroup>
+      <Card>
+        <Card.Body>
+          <Card.Title>Welcome to your Log In:</Card.Title>
+          <Form>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username:</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                // required
+                placeholder="Enter your Username"
+              />
+              {/* code added here to display validation error */}
+              {usernameErr && <p>{usernameErr}</p>}
+            </Form.Group>
+            <Form.Group controlId="formPassword">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                // required
+                placeholder="Enter your Password"
+              />
+              {/* code added here to display validation error */}
+              {passwordErr && <p>{passwordErr}</p>}
+            </Form.Group>
+            <Button className="mt-3" variant="primary" type="submit" onClick={handleSubmit}>
+              Log In
+            </Button>
+            {"   "}
+            <Link to={`/registration`}>
+              <Button className="mt-3" variant="secondary" type="button">
+                Create an Account
+              </Button>
+            </Link>
+          </Form>
+        </Card.Body>
+      </Card>
+    </CardGroup>
   );
 }
 
@@ -142,5 +114,4 @@ LoginView.propTypes = {
   username: PropTypes.string,
   password: PropTypes.string,
   onLoggedIn: PropTypes.func.isRequired,
-  userRegistration: PropTypes.func.isRequired,
 };

@@ -5,8 +5,6 @@ import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CardGroup from "react-bootstrap/CardGroup";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 
 import "./main-view.scss";
@@ -17,8 +15,9 @@ import { MovieCard } from "../movie-card/movie-card"; // this view is showing up
 import { MovieView } from "../movie-view/movie-view"; // this view returns a list of all movies in the database
 import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
 import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
-
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Menubar } from "../navbar/navbar"; // this will import the Navbar for all views
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 /* The MainView class is used to manage all the other views and 
    load the right component based on the previous conditions*/
@@ -106,54 +105,31 @@ export class MainView extends React.Component {
 
   /* For Singel Page Appliction "SPA": The component that full fill the required conditions will be loaded */
   render() {
-    const { movies, registerNewUser, user } = this.state;
-
-    // User registration to create a new user account
-    if (registerNewUser)
-      return (
-        <RegistrationView
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-          userRegistration={(newUser) => this.userRegistration(newUser)}
-        />
-      );
-
-    // If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView
-    if (!user)
-      return (
-        <LoginView
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-          userRegistration={(newUser) => this.userRegistration(newUser)}
-        />
-      );
-
-    if (movies.length === 0) return <div className="main-view">The list is loading!</div>;
+    const { movies, user } = this.state;
 
     // to show up all movies or a selected single movie in the DOM
     return (
       <Router>
-        <div className="main-view">
-          <Navbar bg="dark" variant="dark" className="mb-3">
-            <Container fluid>
-              <Navbar.Brand>MovieFlex</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link>Home</Nav.Link>
-                <Nav.Link
-                  onClick={() => {
-                    this.onLoggedOut();
-                  }}
-                >
-                  Logout
-                </Nav.Link>
-                <Nav.Link>Contact</Nav.Link>
-              </Nav>
-            </Container>
-          </Navbar>
-
+        <Menubar user={user} />
+        <Container>
           <Row className="main-view justify-content-md-center">
             <Route
               exact
               path="/"
               render={() => {
+                // If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView
+                if (!user)
+                  return (
+                    <Col>
+                      <LoginView
+                        onLoggedIn={(user) => this.onLoggedIn(user)}
+                        userRegistration={(newUser) => this.userRegistration(newUser)}
+                      />
+                    </Col>
+                  );
+
+                if (movies.length === 0)
+                  return <div className="main-view">The list is loading!</div>;
                 return movies.map((m) => (
                   <Col md={3} sm={6} xs={12} key={m._id}>
                     <CardGroup className="cardStyle">
@@ -163,6 +139,26 @@ export class MainView extends React.Component {
                 ));
               }}
             />
+
+            <Route
+              path="/registration"
+              render={() => {
+                // User registration to create a new user account
+                if (user) return <Redirect to="/" />;
+                return (
+                  <Col lg={8} md={8}>
+                    <RegistrationView />
+                  </Col>
+                );
+              }}
+            />
+            {/* 
+      //   return ( <RegistrationView
+      //     onLoggedIn={(user) => this.onLoggedIn(user)}
+      //     userRegistration={(newUser) => this.userRegistration(newUser)}
+      //   />
+      // ); */}
+
             <Route
               path="/movies/:movieId"
               render={({ match, history }) => {
@@ -207,7 +203,7 @@ export class MainView extends React.Component {
               }}
             />
           </Row>
-        </div>
+        </Container>
       </Router>
     );
   }
