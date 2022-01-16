@@ -20,21 +20,27 @@ import { DirectorView } from "../director-view/director-view"; // this view retu
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-// to show up the all movies from database
+/* The MainView class is used to manage all the other views and 
+   load the right component based on the previous conditions*/
 export class MainView extends React.Component {
+  /* The constructor is used to initialize the status variables */
   constructor() {
     super();
     this.state = {
-      movies: [],
-      selectedMovie: null,
-      registerNewUser: false,
-      user: null,
+      movies: [], //Contains the list of movies loaded from the server side
+      selectedMovie: null, // Contains the selectd movie by the logged user
+      registerNewUser: false, // Check if the user is requesting a new registration
+      user: null, // Contains information about the logged user
     };
   }
 
-  // use of Axios Library to fetch movies list
+  /* Use of Axios Library to fetch movies list */
+  /* This method is gnerated after the component is rendered */
   componentDidMount() {
+    /* Read the local saved token and user to connect to certain views */
     let accessToken = localStorage.getItem("token");
+
+    /* The list of movies will be loaded only if we have the right JWT */
     if (accessToken !== null) {
       this.setState({
         user: localStorage.getItem("user"),
@@ -43,13 +49,14 @@ export class MainView extends React.Component {
     }
   }
 
+  /* This method is used to set the new value for a selected movie */
   setSelectedMovie(newSelectedMovie) {
     this.setState({
       selectedMovie: newSelectedMovie,
     });
   }
 
-  // When anonymus create a new user account
+  /* This method will be used to set the new values of New User */
   userRegistration(registerNewUser) {
     console.log(registerNewUser + " main view");
 
@@ -58,7 +65,8 @@ export class MainView extends React.Component {
     });
   }
 
-  // When a user successfully logs in, this function updates the `user` property in state to that particular user
+  /* This method is used to update the `user` property in state to that particular user,
+     when a user successfully logs in */
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -70,7 +78,7 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
-  // To get the List of Movies or the a single movie returned from the database
+  /* This method is used to get the List of Movies or a single movie returned from the database */
   getMovies(token) {
     axios
       .get("https://fathomless-plains-90381.herokuapp.com/movies", {
@@ -87,7 +95,7 @@ export class MainView extends React.Component {
       });
   }
 
-  // Logout and remove local storage data (username and JWT-token)
+  /* This method is used to logout and remove local storage data (username and JWT-token) */
   onLoggedOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -96,7 +104,7 @@ export class MainView extends React.Component {
     });
   }
 
-  // to make the view of a single movie
+  /* For Singel Page Appliction "SPA": The component that full fill the required conditions will be loaded */
   render() {
     const { movies, registerNewUser, user } = this.state;
 
@@ -118,8 +126,7 @@ export class MainView extends React.Component {
         />
       );
 
-    if (movies.length === 0)
-      return <div className="main-view">The list is empty!</div>;
+    if (movies.length === 0) return <div className="main-view">The list is loading!</div>;
 
     // to show up all movies or a selected single movie in the DOM
     return (
@@ -149,18 +156,21 @@ export class MainView extends React.Component {
               render={() => {
                 return movies.map((m) => (
                   <Col md={3} sm={6} xs={12} key={m._id}>
-                    <MovieCard movie={m} />
+                    <CardGroup className="cardStyle">
+                      <MovieCard movie={m} />
+                    </CardGroup>
                   </Col>
                 ));
               }}
             />
             <Route
               path="/movies/:movieId"
-              render={({ match }) => {
+              render={({ match, history }) => {
                 return (
                   <Col md={6} sm={8} xs={12}>
                     <MovieView
-                      movie={movies.find((m) => m._id === match.params.movieId)}
+                      movie={movies.find((movie) => movie._id === match.params.movieId)}
+                      onBackClick={() => history.goBack()}
                     />
                   </Col>
                 );
@@ -168,16 +178,15 @@ export class MainView extends React.Component {
             />
             <Route
               path="/director/:name"
-              render={({ match }) => {
+              render={({ match, history }) => {
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
                     <DirectorView
                       director={
-                        movies.find(
-                          (m) => m.Director.Name === match.params.name
-                        ).Director
+                        movies.find((movie) => movie.Director.Name === match.params.name).Director
                       }
+                      onBackClick={() => history.goBack()}
                     />
                   </Col>
                 );
@@ -185,47 +194,19 @@ export class MainView extends React.Component {
             />
             <Route
               path="/genre/:name"
-              render={({ match }) => {
+              render={({ match, history }) => {
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
                     <GenreView
-                      genre={
-                        movies.find((m) => m.Genre.Name === match.params.name)
-                          .Genre
-                      }
+                      genre={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
+                      onBackClick={() => history.goBack()}
                     />
                   </Col>
                 );
               }}
             />
           </Row>
-
-          {/* <Row className="justify-content-center">
-          {selectedMovie ? (
-            <Col md={6} sm={8} xs={12}>
-              <MovieView
-                movie={selectedMovie}
-                onBackClick={(newSelectedMovie) => {
-                  this.setSelectedMovie(newSelectedMovie);
-                }}
-              />
-            </Col>
-          ) : (
-            movies.map((movie) => (
-              <Col md={3} sm={6} xs={12} key={movie._id}>
-                <CardGroup className="cardStyle">
-                  <MovieCard
-                    movie={movie}
-                    onMovieClick={(movie) => {
-                      this.setSelectedMovie(movie);
-                    }}
-                  />
-                </CardGroup>
-              </Col>
-            ))
-          )}
-        </Row> */}
         </div>
       </Router>
     );

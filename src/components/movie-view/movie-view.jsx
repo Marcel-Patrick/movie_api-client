@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
+import { Link } from "react-router-dom";
 
 import "./movie-view.scss";
 
@@ -27,14 +28,15 @@ export class MovieView extends React.Component {
         </Card.Body>
         <ListGroup className="list-group-flush">
           <ListGroupItem>
-            Genre:{" "}
-            <Link to={`/genres/${movie.Genre.Name}`}>
+            Genre:
+            <Link to={`/genre/${movie.Genre.Name}`}>
               <Button variant="link">{movie.Genre.Name}</Button>
             </Link>
           </ListGroupItem>
           <ListGroupItem>
-            <Link to={`/directors/${movie.Director.Name}`}>
-              <Button variant="link">Director: {movie.Director.Name}</Button>
+            Director:
+            <Link to={`/director/${movie.Director.Name}`}>
+              <Button variant="link"> {movie.Director.Name}</Button>
             </Link>
           </ListGroupItem>
         </ListGroup>
@@ -42,7 +44,7 @@ export class MovieView extends React.Component {
           <Button
             className="button-block "
             onClick={() => {
-              onBackClick(null);
+              onBackClick();
             }}
           >
             Back
@@ -68,5 +70,5 @@ MovieView.propTypes = {
     }).isRequired,
     ImagePath: PropTypes.string.isRequired,
   }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
+  onBackClick: PropTypes.func,
 };

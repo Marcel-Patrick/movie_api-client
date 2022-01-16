@@ -26,13 +26,6 @@ export function RegistrationView(props) {
   const [passwordRepeatErr, setPasswordRepeatErr] = useState("");
   const [emailErr, setEmailErr] = useState("");
 
-  // const [values, setValues] = useState({
-  //   usernameErr: "",
-  //   passwordErr: "",
-  //   passwordRepeatErr: "",
-  //   emailErr: "",
-  // });
-
   const validate = () => {
     let isReq = true;
     if (!username) {
@@ -84,6 +77,7 @@ export function RegistrationView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isReq = validate();
+    console.log(isReq);
     // if all required fields are correctly set, start conneting to the server
     if (isReq) {
       /* Send a request to the server for authentication */
@@ -139,7 +133,7 @@ export function RegistrationView(props) {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         // required
-                        placeholder="Ernter a Username"
+                        placeholder="Enter a Username"
                       />
                       {/* code added here to display validation error */}
                       {usernameErr && <p>{usernameErr}</p>}
@@ -153,7 +147,7 @@ export function RegistrationView(props) {
                         onChange={(e) => setPassword(e.target.value)}
                         // required
                         // minLength="6"
-                        placeholder="Ernter a Password (6 or more Characrets)"
+                        placeholder="Enter a Password (6 or more Characrets)"
                       />
                       {/* code added here to display validation error */}
                       {passwordErr && <p>{passwordErr}</p>}
@@ -195,20 +189,12 @@ export function RegistrationView(props) {
                       />
                     </Form.Group>
 
-                    <Button
-                      className="mb-5"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
+                    <Button className="mb-5" type="submit" onClick={handleSubmit}>
                       Create Account
                     </Button>
 
                     <p>You already have an account?</p>
-                    <Button
-                      variant="secondary"
-                      type="button"
-                      onClick={handleRegistration}
-                    >
+                    <Button variant="secondary" type="button" onClick={handleRegistration}>
                       Go on and Log In
                     </Button>
                   </Form>

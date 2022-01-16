@@ -98,7 +98,7 @@ export function LoginView(props) {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         // required
-                        placeholder="Ernter your Username"
+                        placeholder="Enter your Username"
                       />
                       {/* code added here to display validation error */}
                       {usernameErr && <p>{usernameErr}</p>}
@@ -110,17 +110,12 @@ export function LoginView(props) {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         // required
-                        placeholder="Ernter your Password"
+                        placeholder="Enter your Password"
                       />
                       {/* code added here to display validation error */}
                       {passwordErr && <p>{passwordErr}</p>}
                     </Form.Group>
-                    <Button
-                      className="mt-3"
-                      variant="primary"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
+                    <Button className="mt-3" variant="primary" type="submit" onClick={handleSubmit}>
                       Log In
                     </Button>
                     {"   "}

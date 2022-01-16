@@ -9,18 +9,18 @@ import ListGroupItem from "react-bootstrap/ListGroupItem";
 
 import "./director-view.scss";
 
-export class MovieView extends React.Component {
+export class DirectorView extends React.Component {
   render() {
-    const { Director, onBackClick } = this.props;
+    const { director, onBackClick } = this.props;
 
     return (
       <Card>
         <Card.Body>
-          <Card.Title>{Director.Name}</Card.Title>
-          <Card.Text>{Director.Bio}</Card.Text>
+          <Card.Title>{director.Name}</Card.Title>
+          <Card.Text>{director.Bio}</Card.Text>
         </Card.Body>
         <ListGroup className="list-group-flush">
-          <ListGroupItem>Birth: {Director.Birth}</ListGroupItem>
+          <ListGroupItem>Birth: {director.Birth}</ListGroupItem>
         </ListGroup>
         <Card.Body>
           <Button
@@ -37,11 +37,11 @@ export class MovieView extends React.Component {
   }
 }
 
-MovieView.propTypes = {
-  Director: PropTypes.shape({
+DirectorView.propTypes = {
+  director: PropTypes.shape({
     Name: PropTypes.string.isRequired,
     Bio: PropTypes.string,
     Birth: PropTypes.string,
   }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
+  onBackClick: PropTypes.func,
 };
