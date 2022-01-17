@@ -7,14 +7,33 @@ import axios from "axios";
 import "./favorite-list.scss";
 
 export class FavoriteList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     // Define the initial state:
     this.state = {
       add: " ",
       delete: "d-none",
     };
+  }
+  checkFavoriteList(user, movieId) {
+    let token = localStorage.getItem("token");
+    axios
+      .get(`https://fathomless-plains-90381.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        const foundMovie = response.data.FavoriteMovies.find((element) => element === movieId);
+        if (foundMovie) {
+          this.setState({
+            add: "d-none",
+            delete: " ",
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   addMovieToFavoriteList(user, movie) {
     let token = localStorage.getItem("token");
@@ -60,6 +79,10 @@ export class FavoriteList extends React.Component {
         console.error(response);
       });
   }
+  componentDidMount() {
+    this.checkFavoriteList(this.props.user, this.props.movie._id);
+  }
+
   render() {
     const { movie, user } = this.props;
 

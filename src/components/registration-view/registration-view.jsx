@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
+import Alert from "react-bootstrap/Alert";
+
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -115,7 +117,7 @@ export function RegistrationView(props) {
                 placeholder="Enter a Username"
               />
               {/* code added here to display validation error */}
-              {usernameErr && <p>{usernameErr}</p>}
+              {usernameErr && <Alert variant="danger">{usernameErr}</Alert>}
             </Form.Group>
 
             <Form.Group controlId="formPassword">
@@ -129,7 +131,7 @@ export function RegistrationView(props) {
                 placeholder="Enter a Password (6 or more Characrets)"
               />
               {/* code added here to display validation error */}
-              {passwordErr && <p>{passwordErr}</p>}
+              {passwordErr && <Alert variant="danger">{passwordErr}</Alert>}
             </Form.Group>
 
             <Form.Group controlId="formPasswordRepeat">
@@ -142,7 +144,7 @@ export function RegistrationView(props) {
                 placeholder="Repeat your Password"
               />
               {/* code added here to display validation error */}
-              {passwordRepeatErr && <p>{passwordRepeatErr}</p>}
+              {passwordRepeatErr && <Alert variant="danger">{passwordRepeatErr}</Alert>}
             </Form.Group>
 
             <Form.Group controlId="Email" className="mb-3">
@@ -155,7 +157,7 @@ export function RegistrationView(props) {
                 placeholder="Enter your Email"
               />
               {/* code added here to display validation error */}
-              {emailErr && <p>{emailErr}</p>}
+              {emailErr && <Alert variant="danger">{emailErr}</Alert>}
             </Form.Group>
 
             <Form.Group controlId="updateBirthday">

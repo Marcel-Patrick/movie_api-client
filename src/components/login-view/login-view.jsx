@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
+import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -80,7 +81,7 @@ export function LoginView(props) {
                 placeholder="Enter your Username"
               />
               {/* code added here to display validation error */}
-              {usernameErr && <p>{usernameErr}</p>}
+              {usernameErr && <Alert variant="danger">{usernameErr}</Alert>}
             </Form.Group>
             <Form.Group controlId="formPassword">
               <Form.Label>Password:</Form.Label>
@@ -92,7 +93,7 @@ export function LoginView(props) {
                 placeholder="Enter your Password"
               />
               {/* code added here to display validation error */}
-              {passwordErr && <p>{passwordErr}</p>}
+              {passwordErr && <Alert variant="danger">{passwordErr}</Alert>}
             </Form.Group>
             <Button className="mt-3" variant="primary" type="submit" onClick={handleSubmit}>
               Log In
