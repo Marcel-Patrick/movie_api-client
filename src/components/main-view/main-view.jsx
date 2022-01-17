@@ -16,6 +16,7 @@ import { MovieView } from "../movie-view/movie-view"; // this view returns a lis
 import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
 import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
 import { Menuebar } from "../navbar/navbar"; // this will import the Navbar for all views
+import { ProfileView } from "../profile-view/profile-view"; // this view is used to give the users access in to thier account
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -152,6 +153,18 @@ export class MainView extends React.Component {
                 );
               }}
             />
+
+            <Route
+              path="/users/:username"
+              render={() => {
+                return (
+                  <Col lg={8} md={8}>
+                    <ProfileView />
+                  </Col>
+                );
+              }}
+            />
+
             <Route
               path="/movies/:movieId"
               render={({ match, history }) => {
@@ -166,6 +179,7 @@ export class MainView extends React.Component {
                 );
               }}
             />
+
             <Route
               path="/director/:name"
               render={({ match, history }) => {
@@ -182,6 +196,7 @@ export class MainView extends React.Component {
                 );
               }}
             />
+
             <Route
               path="/genre/:name"
               render={({ match, history }) => {
