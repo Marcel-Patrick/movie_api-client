@@ -53,7 +53,7 @@ export function LoginView(props) {
         .then((response) => {
           const data = response.data;
           props.onLoggedIn(data);
-          console.log(data);
+          console.log("All data" + data);
         })
         .catch((e) => {
           console.log("no such user");

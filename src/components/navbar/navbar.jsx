@@ -31,14 +31,14 @@ export function Menubar({ user }) {
           <Nav className="ml-auto">
             {isAuth() && <Nav.Link href={`/users/${user}`}>{user}</Nav.Link>}
             {isAuth() && (
-              <Button
-                variant="link"
+              <Nav.Link
+                className="handCursor"
                 onClick={() => {
                   this.onLoggedOut();
                 }}
               >
                 Log out
-              </Button>
+              </Nav.Link>
             )}
             {!isAuth() && <Nav.Link href="/">Log in</Nav.Link>}
             {!isAuth() && <Nav.Link href="/registration">Create Account</Nav.Link>}

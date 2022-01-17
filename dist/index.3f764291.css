@@ -51,6 +51,9 @@ button:hover {
 }
 
 
+.handCursor {
+  cursor: pointer;
+}
 .my-flix {
   color: steelblue;
 }

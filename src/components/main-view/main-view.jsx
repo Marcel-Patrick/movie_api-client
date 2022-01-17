@@ -130,10 +130,10 @@ export class MainView extends React.Component {
 
                 if (movies.length === 0)
                   return <div className="main-view">The list is loading!</div>;
-                return movies.map((m) => (
-                  <Col md={3} sm={6} xs={12} key={m._id}>
+                return movies.map((movie) => (
+                  <Col md={3} sm={6} xs={12} key={movie._id}>
                     <CardGroup className="cardStyle">
-                      <MovieCard movie={m} />
+                      <MovieCard movie={movie} user={user} />
                     </CardGroup>
                   </Col>
                 ));
