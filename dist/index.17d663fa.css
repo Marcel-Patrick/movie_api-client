@@ -40,6 +40,7 @@ img {
   height: 300px;
   object-fit: contain;
 }
+
 .movie-poster {
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -51,7 +52,9 @@ img {
 }
 
 
-
+.handCursor {
+  cursor: pointer;
+}
 .my-flix {
   color: steelblue;
 }

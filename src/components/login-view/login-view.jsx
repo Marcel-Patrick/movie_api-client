@@ -56,7 +56,7 @@ export function LoginView(props) {
           console.log("All data" + data);
         })
         .catch((e) => {
-          console.log("no such user");
+          alert("Something went wrong: Please check Username or Password!");
           console.log(username);
           console.log(password);
           console.log(e);

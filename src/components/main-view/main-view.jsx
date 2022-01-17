@@ -15,7 +15,7 @@ import { MovieCard } from "../movie-card/movie-card"; // this view is showing up
 import { MovieView } from "../movie-view/movie-view"; // this view returns a list of all movies in the database
 import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
 import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
-import { Menubar } from "../navbar/navbar"; // this will import the Navbar for all views
+import { Menuebar } from "../navbar/navbar"; // this will import the Navbar for all views
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -110,7 +110,7 @@ export class MainView extends React.Component {
     // to show up all movies or a selected single movie in the DOM
     return (
       <Router>
-        <Menubar user={user} />
+        <Menuebar user={user} />
         <Container>
           <Row className="main-view justify-content-md-center">
             <Route
