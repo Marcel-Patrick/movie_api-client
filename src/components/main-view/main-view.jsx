@@ -152,16 +152,10 @@ export class MainView extends React.Component {
                 );
               }}
             />
-            {/* 
-      //   return ( <RegistrationView
-      //     onLoggedIn={(user) => this.onLoggedIn(user)}
-      //     userRegistration={(newUser) => this.userRegistration(newUser)}
-      //   />
-      // ); */}
-
             <Route
               path="/movies/:movieId"
               render={({ match, history }) => {
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
                     <MovieView

@@ -1,7 +1,8 @@
+// navbar.jsx
+
 import React from "react";
-import { Navbar, Container, Nav, Button, Link } from "react-bootstrap";
-// import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
-// import NavbarToggle from "react-bootstrap/esm/NavbarToggle";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import "./navbar.scss";
 
 export function Menubar({ user }) {
   onLoggedOut = () => {
