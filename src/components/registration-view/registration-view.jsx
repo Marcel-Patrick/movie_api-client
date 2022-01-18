@@ -30,7 +30,6 @@ export function RegistrationView(props) {
     if (!username) {
       setUsernameErr("Please enter a Username!");
       isReq = false;
-      console.log("usernameerr: " + usernameErr);
     } else if (username.length < 5) {
       setUsernameErr("Username must contain at least 5 charaters!");
       isReq = false;
@@ -61,11 +60,9 @@ export function RegistrationView(props) {
     if (!email) {
       setEmailErr("Please enter your Email Address!");
       isReq = false;
-      console.log("emailErr: " + emailErr);
     } else if (email.indexOf("@") === -1) {
       setEmailErr("Please enter a valid Email Address!");
       isReq = false;
-      console.log("emailErr: " + emailErr);
     } else {
       setEmailErr("");
     }
@@ -76,7 +73,6 @@ export function RegistrationView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isReq = validate();
-    console.log(isReq);
     // if all required fields are correctly set, start conneting to the server
     if (isReq) {
       /* Send a request to the server for authentication */
@@ -89,7 +85,6 @@ export function RegistrationView(props) {
         })
         .then((response) => {
           const data = response.data;
-          console.log(data);
           alert("You are successfully registrated, please login!");
           window.open("/", "_self"); // the "_self" argument is necessary that page opens in current tab
         })
@@ -126,8 +121,8 @@ export function RegistrationView(props) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                // required
-                // minLength="6"
+                required
+                minLength="6"
                 placeholder="Enter a Password (6 or more Characrets)"
               />
               {/* code added here to display validation error */}
@@ -140,7 +135,7 @@ export function RegistrationView(props) {
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
-                // required
+                required
                 placeholder="Repeat your Password"
               />
               {/* code added here to display validation error */}

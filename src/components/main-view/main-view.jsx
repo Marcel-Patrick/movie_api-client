@@ -58,8 +58,6 @@ export class MainView extends React.Component {
 
   /* This method will be used to set the new values of New User */
   userRegistration(registerNewUser) {
-    console.log(registerNewUser + " main view");
-
     this.setState({
       registerNewUser, // it s the short form of registerNewUser: registerNewUser,
     });
@@ -68,7 +66,6 @@ export class MainView extends React.Component {
   /* This method is used to update the `user` property in state to that particular user,
      when a user successfully logs in */
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
       user: authData.user.Username,
     });

@@ -9,7 +9,6 @@ import "./favorite-list.scss";
 export class FavoriteList extends React.Component {
   constructor(props) {
     super(props);
-
     // Define the initial state:
     this.state = {
       add: " ",
@@ -51,7 +50,6 @@ export class FavoriteList extends React.Component {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data);
       })
       .catch((response) => {
         console.error(response);
@@ -73,7 +71,6 @@ export class FavoriteList extends React.Component {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data);
       })
       .catch((response) => {
         console.error(response);

@@ -54,12 +54,9 @@ export function LoginView(props) {
         .then((response) => {
           const data = response.data;
           props.onLoggedIn(data);
-          console.log("All data" + data);
         })
         .catch((e) => {
           alert("Something went wrong: Please check Username or Password!");
-          console.log(username);
-          console.log(password);
           console.log(e);
         });
     }
@@ -112,7 +109,5 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-  username: PropTypes.string,
-  password: PropTypes.string,
   onLoggedIn: PropTypes.func.isRequired,
 };
