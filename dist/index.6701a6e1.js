@@ -23074,6 +23074,7 @@ class MovieCard extends _reactDefault.default.Component {
                     __self: this,
                     children: [
                         /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Title, {
+                            className: "titleHeight",
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
                                 lineNumber: 24
@@ -23082,6 +23083,7 @@ class MovieCard extends _reactDefault.default.Component {
                             children: movie.Title
                         }),
                         /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Text, {
+                            className: "truncate",
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
                                 lineNumber: 25

@@ -21,8 +21,8 @@ export class MovieCard extends React.Component {
           crossOrigin="anonymous"
         />
         <Card.Body className="cardStyle">
-          <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
+          <Card.Title className="titleHeight">{movie.Title}</Card.Title>
+          <Card.Text className="truncate">{movie.Description}</Card.Text>
           <Link to={`/movies/${movie._id}`}>
             <Button className="mb-2" variant="info">
               Show Movie

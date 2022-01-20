@@ -9,3 +9,20 @@ img {
   height: 300px;
   object-fit: contain;
 }
+
+.titleHeight {
+  height: 70px;
+}
+
+.truncate {
+  width: 100%;
+  /**Major Properties**/
+  line-height: 2rem;
+  max-height: 8rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+}
