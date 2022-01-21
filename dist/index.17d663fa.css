@@ -3,10 +3,6 @@ body {
   background-color: #d6c7c7;
 }
 
-.cardStyle {
-  margin-bottom: 10px;
-}
-
 /* Full-width input fields */
 input[type=text],
 input[type=email],
@@ -30,17 +26,6 @@ button {
 button:hover {
   opacity: 1;
 }
-.cardStyle {
-  height: 100%;
-  padding-bottom: 15px;
-}
-
-img {
-  width: auto;
-  height: 300px;
-  object-fit: contain;
-}
-
 .movie-poster {
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -54,6 +39,34 @@ img {
 
 .handCursor {
   cursor: pointer;
+}
+
+.cardStyle {
+  height: 100%;
+  padding-bottom: 15px;
+}
+
+img {
+  width: auto;
+  height: 300px;
+  object-fit: contain;
+}
+
+.titleHeight {
+  height: 70px;
+}
+
+.truncate {
+  width: 100%;
+  /**Major Properties**/
+  line-height: 2rem;
+  max-height: 8rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
 }
 
 .my-flix {

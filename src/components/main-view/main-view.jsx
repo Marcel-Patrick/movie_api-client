@@ -4,14 +4,17 @@ import React from "react";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import CardGroup from "react-bootstrap/CardGroup";
 import Container from "react-bootstrap/Container";
+import { connect } from "react-redux";
 
 import "./main-view.scss";
 
+import { setMovies } from "../../actions/actions";
+// we haven't written this one yet
+import MoviesList from "../movies-list/movies-list";
+
 import { RegistrationView } from "../registration-view/registration-view"; // this view is used to create new user account
 import { LoginView } from "../login-view/login-view"; // this view is used to let users log in to thier account
-import { MovieCard } from "../movie-card/movie-card"; // this view is showing up infirmation about a single movie
 import { MovieView } from "../movie-view/movie-view"; // this view returns a list of all movies in the database
 import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
 import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
@@ -22,12 +25,11 @@ import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 /* The MainView class is used to manage all the other views and 
    load the right component based on the previous conditions*/
-export class MainView extends React.Component {
+class MainView extends React.Component {
   /* The constructor is used to initialize the status variables */
   constructor() {
     super();
     this.state = {
-      movies: [], //Contains the list of movies loaded from the server side
       selectedMovie: null, // Contains the selectd movie by the logged user
       registerNewUser: false, // Check if the user is requesting a new registration
       user: null, // Contains information about the logged user
@@ -83,9 +85,7 @@ export class MainView extends React.Component {
       })
       .then((response) => {
         // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
+        this.props.setMovies(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -103,7 +103,8 @@ export class MainView extends React.Component {
 
   /* For Singel Page Appliction "SPA": The component that full fill the required conditions will be loaded */
   render() {
-    const { movies, user } = this.state;
+    let { movies } = this.props;
+    let { user } = this.state;
 
     // to show up all movies or a selected single movie in the DOM
     return (
@@ -128,13 +129,7 @@ export class MainView extends React.Component {
 
                 if (movies.length === 0)
                   return <div className="main-view">The list is loading!</div>;
-                return movies.map((movie) => (
-                  <Col md={3} sm={6} xs={12} key={movie._id}>
-                    <CardGroup className="cardStyle">
-                      <MovieCard movie={movie} user={user} />
-                    </CardGroup>
-                  </Col>
-                ));
+                return <MoviesList movies={movies} user={user} />;
               }}
             />
 
@@ -214,3 +209,9 @@ export class MainView extends React.Component {
     );
   }
 }
+
+let mapStateToProps = (state) => {
+  return { movies: state.movies };
+};
+
+export default connect(mapStateToProps, { setMovies })(MainView);
