@@ -104,25 +104,49 @@ Profile view, single movie view, and all movies view:
 1. Installing the Right Dependencies
    Dependencies are what your application needs for both development and production, while development dependencies are only necessary during development.
 
-- In order to use Parcel in movie_api-client, you first need to install it globally:
+- In order to use Parcel in movie_api-client, you first need to install it globally:<br/>
   use `npm install -g parcel@next` command for Terminal
-- Now, now navigate to “movie_api-client” project folder in terminal, then run the following commands to install packages and dependencies you need for React application development:
+
+- Be sure that Parcel v2+ is installed _(rather than Parcel v1, this older version is no longer maintained by the developers)_.<br/>
+  To check the installed version, run the command: parcel --version
+
+- Now, now navigate to “movie_api-client” project folder in terminal, then run the following commands to install packages and dependencies you need for React application development:<br/>
   use `npm install --save react react-dom` command for Terminal
 
-- to use the actual list of movies from movie_apiDB, it´s needed to perform an ajax operation. For this, First install the Axios library:
+- to use the actual list of movies from movie_apiDB, it´s needed to perform an ajax operation. For this, First install the Axios library:<br/>
   use `npm install axios --save` command for Terminal
 
-- As props transmit data between components in a React application, propTypes validate the data types based on the app’s configuration. To avoid errors and bugs, install propTypes:
+- As props transmit data between components in a React application, propTypes validate the data types based on the app’s configuration. To avoid errors and bugs, install propTypes:<br/>
   use `npm install --save prop-types` command for Terminal
 
-- A small help:
-  If the images on the movie view are not getting displayed, there must be an issue with the links stored in the database.
+- A small help:<br/>
+  If the images on the movie view are not getting displayed, there must be an issue with the links stored in the database.<br/>
   To fix that, add crossOrigin="anonymous" to the <img> tag, to avoid this error.
 
-2. To Design a propper UI (User Interface)
-   Half the work of a frontend developer is ensuring that the user interfaces (UIs) they code resemble the prototypes they receive from their designers as closely as possible.
-   Design systems are often used by product teams to ensure consistent styling and branding across a product, creating a uniform and coherent experience for users.
+2. To Design a propper UI (User Interface)<br/>
+   Half the work of a frontend developer is ensuring that the user interfaces (UIs) they code resemble the prototypes they receive from their designers as closely as possible.<br/>
+   Design systems are often used by product teams to ensure consistent styling and branding across a product, creating a uniform and coherent experience for users.<br/>
    A design system is essentially a library of UI components applied to one or several products.
 
-- For ths App we use React Bootstrap. In order to use React Bootstrap in movie_api-client, install it:
+- For ths App we use React Bootstrap. In order to use React Bootstrap in movie_api-client, install it:<br/>
   use `npm install --save react-bootstrap` command for Terminal
+
+3. To make the app persistent, you need routing: <br/>
+   the ability to store state in the URL. <br/>
+   Implementing a router from scratch isn’t all that straightforward, especially when it comes to state-based routers. There are some good libraries available that can handle things for you. React Router is the most popular for React applications.
+
+- To implement a State-Based Router to the app, you need to install React Router: <br/>
+  use `npm install react-router-dom` command for Terminal
+
+4. You will use React Redux which acts as the binding between React and Redux, and then you'll move to the actual implementation part for converting your app to Redux.
+
+- Before installing React Redux, let’s begin by installing the two packages you need: <br/>
+  use `npm install redux --save` <br/>
+  and `npm install react-redux --save` command for Terminal<br/>
+  _make sure to install React Redux in your project directory locally_
+
+- Install the redux-devtools extension inside your project:<br/>
+  use `npm install --save redux-devtools-extension` command for Terminal<br/>
+  _After the installation is complete, import this dependency as follows: <br/>_
+  _import { devToolsEnhancer } from 'redux-devtools-extension'; and then adjust the line where the store is being created to: <br/>_
+  _const store = createStore(moviesApp, devToolsEnhancer());_
