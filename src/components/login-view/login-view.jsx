@@ -9,10 +9,15 @@ import CardGroup from "react-bootstrap/CardGroup";
 import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setUser } from "../../actions/actions";
 
 import "./login-view.scss";
+let mapStateToProps = (state) => {
+  return { userData: state.userData };
+};
 
-export function LoginView(props) {
+function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // Declare hook for each input
@@ -53,7 +58,8 @@ export function LoginView(props) {
         })
         .then((response) => {
           const data = response.data;
-          props.onLoggedIn(data);
+          props.setUser(data);
+          props.onLoggedIn();
         })
         .catch((e) => {
           alert("Something went wrong: Please check Username or Password!");
@@ -109,5 +115,19 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
+  userData: PropTypes.shape({
+    User: PropTypes.shape({
+      _id: PropTypes.string,
+      Username: PropTypes.string,
+      Password: PropTypes.string,
+      Email: PropTypes.string,
+      Birthday: PropTypes.string,
+      FavoriteMovies: PropTypes.array,
+    }),
+    token: PropTypes.string,
+  }),
+  setUser: PropTypes.func,
+  onLoggedIn: PropTypes.func,
 };
+
+export default connect(mapStateToProps, { setUser })(LoginView);

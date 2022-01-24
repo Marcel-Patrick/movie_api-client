@@ -5,12 +5,15 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import { FavoriteList } from "../favoriteList-view/favorite-list";
+import FavoriteList from "../favoriteList-view/favorite-list";
+import { connect } from "react-redux";
+import { getMovieDetails } from "../../actions/actions";
+
 import "./movie-card.scss";
 
-export class MovieCard extends React.Component {
+class MovieCard extends React.Component {
   render() {
-    const { movie, user } = this.props;
+    const { movie } = this.props;
 
     return (
       <Card>
@@ -24,11 +27,17 @@ export class MovieCard extends React.Component {
           <Card.Title className="titleHeight">{movie.Title}</Card.Title>
           <Card.Text className="truncate">{movie.Description}</Card.Text>
           <Link to={`/movies/${movie._id}`}>
-            <Button className="mb-2" variant="info">
+            <Button
+              className="mb-2"
+              variant="info"
+              onClick={() => {
+                this.props.getMovieDetails(movie);
+              }}
+            >
               Show Movie
             </Button>
           </Link>
-          <FavoriteList movie={movie} user={user} />
+          <FavoriteList movie={movie} />
         </Card.Body>
       </Card>
     );
@@ -37,18 +46,19 @@ export class MovieCard extends React.Component {
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
+    Title: PropTypes.string,
+    Description: PropTypes.string,
     Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Description: PropTypes.string,
-    }).isRequired,
+    }),
     Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Bio: PropTypes.string,
       Birth: PropTypes.string,
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }).isRequired,
-  user: PropTypes.string,
+    }),
+    ImagePath: PropTypes.string,
+  }),
 };
+
+export default connect(null, { getMovieDetails })(MovieCard);

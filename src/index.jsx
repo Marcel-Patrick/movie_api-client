@@ -6,6 +6,8 @@ import moviesApp from "./reducers/reducers";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import MainView from "./components/main-view/main-view";
 
 // Import statement to indicate that you need to bundle `./index.scss`
@@ -13,6 +15,7 @@ import "./index.scss";
 
 // Create a store
 const store = createStore(moviesApp, devToolsEnhancer());
+const persistor = persistStore(store);
 
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
@@ -20,7 +23,9 @@ class MyFlixApplication extends React.Component {
     return (
       <Provider store={store}>
         <Container fluid>
-          <MainView />
+          <PersistGate persistor={persistor}>
+            <MainView />
+          </PersistGate>
         </Container>
       </Provider>
     );

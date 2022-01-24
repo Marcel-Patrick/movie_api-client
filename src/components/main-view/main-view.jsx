@@ -9,75 +9,40 @@ import { connect } from "react-redux";
 
 import "./main-view.scss";
 
-import { setMovies } from "../../actions/actions";
-// we haven't written this one yet
+import { setMovies, setUser } from "../../actions/actions";
 import MoviesList from "../movies-list/movies-list";
 
+import LoginView from "../login-view/login-view"; // this view is used to let users log in to thier account
+import MovieView from "../movie-view/movie-view"; // this view returns a list of all movies in the database
+import GenreView from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
+import DirectorView from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
+import Menuebar from "../navbar/navbar"; // this will import the Navbar for all views
 import { RegistrationView } from "../registration-view/registration-view"; // this view is used to create new user account
-import { LoginView } from "../login-view/login-view"; // this view is used to let users log in to thier account
-import { MovieView } from "../movie-view/movie-view"; // this view returns a list of all movies in the database
-import { GenreView } from "../genre-view/genre-view"; // this view returns the genres Name and Dercription in the database
-import { DirectorView } from "../director-view/director-view"; // this view returns the directors Name and Dercription in the database
-import { Menuebar } from "../navbar/navbar"; // this will import the Navbar for all views
 import { ProfileView } from "../profile-view/profile-view"; // this view is used to give the users access in to thier account
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
+let mapStateToProps = (state) => {
+  return { movies: state.movies, userData: state.userData };
+};
 /* The MainView class is used to manage all the other views and 
    load the right component based on the previous conditions*/
 class MainView extends React.Component {
-  /* The constructor is used to initialize the status variables */
-  constructor() {
-    super();
-    this.state = {
-      selectedMovie: null, // Contains the selectd movie by the logged user
-      registerNewUser: false, // Check if the user is requesting a new registration
-      user: null, // Contains information about the logged user
-    };
-  }
-
-  /* Use of Axios Library to fetch movies list */
   /* This method is gnerated after the component is rendered */
   componentDidMount() {
-    /* Read the local saved token and user to connect to certain views */
-    let accessToken = localStorage.getItem("token");
-
     /* The list of movies will be loaded only if we have the right JWT */
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem("user"),
-      });
-      this.getMovies(accessToken);
+    if (Object.keys(this.props.userData).length !== 0) {
+      this.getMovies(this.props.userData.token);
     }
-  }
-
-  /* This method is used to set the new value for a selected movie */
-  setSelectedMovie(newSelectedMovie) {
-    this.setState({
-      selectedMovie: newSelectedMovie,
-    });
-  }
-
-  /* This method will be used to set the new values of New User */
-  userRegistration(registerNewUser) {
-    this.setState({
-      registerNewUser, // it s the short form of registerNewUser: registerNewUser,
-    });
   }
 
   /* This method is used to update the `user` property in state to that particular user,
      when a user successfully logs in */
-  onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username,
-    });
-
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
-    this.getMovies(authData.token);
+  onLoggedIn() {
+    if (Object.keys(this.props.userData).length !== 0) this.getMovies(this.props.userData.token);
   }
 
-  /* This method is used to get the List of Movies or a single movie returned from the database */
+  /* This method is used to get the List of Movies  */
   getMovies(token) {
     axios
       .get("https://fathomless-plains-90381.herokuapp.com/movies", {
@@ -92,24 +57,18 @@ class MainView extends React.Component {
       });
   }
 
-  /* This method is used to logout and remove local storage data (username and JWT-token) */
+  /* This method is used to logout and remove local storage data (userData) */
   onLoggedOut() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    this.setState({
-      user: null,
-    });
+    this.props.setUser({});
   }
 
   /* For Singel Page Appliction "SPA": The component that full fill the required conditions will be loaded */
   render() {
-    let { movies } = this.props;
-    let { user } = this.state;
+    let { userData, movies } = this.props; // this.props.userData --> userData
 
-    // to show up all movies or a selected single movie in the DOM
     return (
       <Router>
-        <Menuebar user={user} />
+        <Menuebar />
         <Container>
           <Row className="main-view justify-content-md-center">
             <Route
@@ -117,19 +76,16 @@ class MainView extends React.Component {
               path="/"
               render={() => {
                 // If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView
-                if (!user)
+                if (Object.keys(userData).length === 0)
                   return (
                     <Col>
-                      <LoginView
-                        onLoggedIn={(user) => this.onLoggedIn(user)}
-                        userRegistration={(newUser) => this.userRegistration(newUser)}
-                      />
+                      <LoginView onLoggedIn={() => this.onLoggedIn()} />
                     </Col>
                   );
 
                 if (movies.length === 0)
                   return <div className="main-view">The list is loading!</div>;
-                return <MoviesList movies={movies} user={user} />;
+                return <MoviesList />;
               }}
             />
 
@@ -137,7 +93,7 @@ class MainView extends React.Component {
               path="/registration"
               render={() => {
                 // User registration to create a new user account
-                if (user) return <Redirect to="/" />;
+                if (Object.keys(userData).length !== 0) return <Redirect to="/" />;
                 return (
                   <Col lg={8} md={8}>
                     <RegistrationView />
@@ -159,14 +115,11 @@ class MainView extends React.Component {
 
             <Route
               path="/movies/:movieId"
-              render={({ match, history }) => {
+              render={({ history }) => {
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
-                    <MovieView
-                      movie={movies.find((movie) => movie._id === match.params.movieId)}
-                      onBackClick={() => history.goBack()}
-                    />
+                    <MovieView onBackClick={() => history.goBack()} />
                   </Col>
                 );
               }}
@@ -174,16 +127,11 @@ class MainView extends React.Component {
 
             <Route
               path="/director/:name"
-              render={({ match, history }) => {
+              render={({ history }) => {
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
-                    <DirectorView
-                      director={
-                        movies.find((movie) => movie.Director.Name === match.params.name).Director
-                      }
-                      onBackClick={() => history.goBack()}
-                    />
+                    <DirectorView onBackClick={() => history.goBack()} />
                   </Col>
                 );
               }}
@@ -191,14 +139,11 @@ class MainView extends React.Component {
 
             <Route
               path="/genre/:name"
-              render={({ match, history }) => {
+              render={({ history }) => {
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={6} sm={8} xs={12}>
-                    <GenreView
-                      genre={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
-                      onBackClick={() => history.goBack()}
-                    />
+                    <GenreView onBackClick={() => history.goBack()} />
                   </Col>
                 );
               }}
@@ -210,8 +155,4 @@ class MainView extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return { movies: state.movies };
-};
-
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);

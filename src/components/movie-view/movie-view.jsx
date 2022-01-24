@@ -7,36 +7,55 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { getDirectorDetails, getGenreDetails } from "../../actions/actions";
 
 import "./movie-view.scss";
 
-export class MovieView extends React.Component {
-  render() {
-    const { movie, onBackClick } = this.props;
+let mapStateToProps = (state) => {
+  return { movieDetails: state.movieDetails };
+};
 
+class MovieView extends React.Component {
+  render() {
+    const { movieDetails, onBackClick } = this.props;
     return (
       <Card>
         <Card.Img
           className="movie-poster"
           variant="top"
-          src={movie.ImagePath}
+          src={movieDetails.ImagePath}
           crossOrigin="anonymous"
         />
         <Card.Body>
-          <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
+          <Card.Title>{movieDetails.Title}</Card.Title>
+          <Card.Text>{movieDetails.Description}</Card.Text>
         </Card.Body>
         <ListGroup className="list-group-flush">
           <ListGroupItem>
             Genre:
-            <Link to={`/genre/${movie.Genre.Name}`}>
-              <Button variant="link">{movie.Genre.Name}</Button>
+            <Link to={`/genre/${movieDetails.Genre.Name}`}>
+              <Button
+                variant="link"
+                onClick={() => {
+                  this.props.getGenreDetails(movieDetails.Genre);
+                }}
+              >
+                {movieDetails.Genre.Name}
+              </Button>
             </Link>
           </ListGroupItem>
           <ListGroupItem>
             Director:
-            <Link to={`/director/${movie.Director.Name}`}>
-              <Button variant="link"> {movie.Director.Name}</Button>
+            <Link to={`/director/${movieDetails.Director.Name}`}>
+              <Button
+                variant="link"
+                onClick={() => {
+                  this.props.getDirectorDetails(movieDetails.Director);
+                }}
+              >
+                {movieDetails.Director.Name}
+              </Button>
             </Link>
           </ListGroupItem>
         </ListGroup>
@@ -56,19 +75,21 @@ export class MovieView extends React.Component {
 }
 
 MovieView.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
+  movieDetails: PropTypes.shape({
+    Title: PropTypes.string,
+    Description: PropTypes.string,
     Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Description: PropTypes.string,
-    }).isRequired,
+    }),
     Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Bio: PropTypes.string,
       Birth: PropTypes.string,
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }).isRequired,
+    }),
+    ImagePath: PropTypes.string,
+  }),
   onBackClick: PropTypes.func,
 };
+
+export default connect(mapStateToProps, { getDirectorDetails, getGenreDetails })(MovieView);
