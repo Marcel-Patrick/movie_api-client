@@ -1,28 +1,69 @@
 import { combineReducers } from "redux";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import * as actions from "../actions/actions";
 
-import { SET_FILTER, SET_MOVIES } from "../actions/actions";
+const persistConf = {
+  key: "root",
+  storage,
+  whitelist: ["userData", "movieDetails"],
+};
 
-function visibilityFilter(state = "", action) {
+function userData(state = {}, action) {
   switch (action.type) {
-    case SET_FILTER:
+    case actions.SET_USER:
       return action.value;
     default:
       return state;
   }
 }
-
 function movies(state = [], action) {
   switch (action.type) {
-    case SET_MOVIES:
+    case actions.SET_MOVIES:
       return action.value;
     default:
       return state;
   }
 }
-
-const moviesApp = combineReducers({
-  visibilityFilter,
+function visibilityFilter(state = "", action) {
+  switch (action.type) {
+    case actions.SET_FILTER:
+      return action.value;
+    default:
+      return state;
+  }
+}
+function directorDetails(state = {}, action) {
+  switch (action.type) {
+    case actions.GET_DIRECTOR_DETAILS:
+      return action.value;
+    default:
+      return state;
+  }
+}
+function genreDetails(state = {}, action) {
+  switch (action.type) {
+    case actions.GET_GENRE_DETAILS:
+      return action.value;
+    default:
+      return state;
+  }
+}
+function movieDetails(state = {}, action) {
+  switch (action.type) {
+    case actions.GET_MOVIE_DETAILS:
+      return action.value;
+    default:
+      return state;
+  }
+}
+const rootReducer = combineReducers({
+  userData,
   movies,
+  visibilityFilter,
+  directorDetails,
+  genreDetails,
+  movieDetails,
 });
 
-export default moviesApp;
+export default persistReducer(persistConf, rootReducer);

@@ -4,52 +4,32 @@ import React from "react";
 import PropTypes from "prop-types";
 import { CardGroup } from "react-bootstrap";
 import { Col } from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card";
+import MovieCard from "../movie-card/movie-card";
 import { Row } from "react-bootstrap";
-import axios from "axios";
+import { connect } from "react-redux";
 
-export class FavoriteMovies extends React.Component {
-  constructor(props) {
-    super(props);
-    // Define the initial state:
-    this.state = {
-      movies: [],
-    };
-  }
+const mapStateToProps = (state) => {
+  return { userData: state.userData, movies: state.movies };
+};
 
-  getMovies() {
-    let token = localStorage.getItem("token");
-    axios
-      .get("https://fathomless-plains-90381.herokuapp.com/movies", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-  componentDidMount() {
-    this.getMovies();
-  }
+class FavoriteMovies extends React.Component {
   render() {
     const { userData } = this.props;
-    const { movies } = this.state;
+    const { movies } = this.props;
+
     if (movies.length === 0) return <div>The list is loading!</div>;
-    if (userData.FavoriteMovies.length === 0) return <div>Your favorite movies list is empty!</div>;
+    if (userData.user.FavoriteMovies.length === 0)
+      return <div>Your favorite movies list is empty!</div>;
+
     return (
       <Row className="main-view justify-content-center">
-        {userData.FavoriteMovies.length > 0 &&
+        {userData.user.FavoriteMovies.length > 0 &&
           movies.map((movie) => {
-            if (movie._id === userData.FavoriteMovies.find((fav) => fav === movie._id)) {
+            if (movie._id === userData.user.FavoriteMovies.find((fav) => fav === movie._id)) {
               return (
                 <Col sm={6} xs={12} key={movie._id}>
                   <CardGroup className="cardStyle">
-                    <MovieCard movie={movie} user={userData.Username} />
+                    <MovieCard movie={movie} user={userData.user.Username} />
                   </CardGroup>
                 </Col>
               );
@@ -62,10 +42,32 @@ export class FavoriteMovies extends React.Component {
 
 FavoriteMovies.propTypes = {
   userData: PropTypes.shape({
-    Usermame: PropTypes.string,
-    Password: PropTypes.string,
-    Email: PropTypes.string,
-    Birthday: PropTypes.string,
-    FavoriteMovies: PropTypes.arrayOf(PropTypes.string),
+    User: PropTypes.shape({
+      _id: PropTypes.string,
+      Username: PropTypes.string,
+      Password: PropTypes.string,
+      Email: PropTypes.string,
+      Birthday: PropTypes.string,
+      FavoriteMovies: PropTypes.array,
+    }),
+    token: PropTypes.string,
   }),
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      Title: PropTypes.string,
+      Description: PropTypes.string,
+      Genre: PropTypes.shape({
+        Name: PropTypes.string,
+        Description: PropTypes.string,
+      }),
+      Director: PropTypes.shape({
+        Name: PropTypes.string,
+        Bio: PropTypes.string,
+        Birth: PropTypes.string,
+      }),
+      ImagePath: PropTypes.string,
+    })
+  ),
 };
+
+export default connect(mapStateToProps)(FavoriteMovies);

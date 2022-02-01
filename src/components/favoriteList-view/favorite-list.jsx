@@ -4,9 +4,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { connect } from "react-redux";
+import { setUser } from "../../actions/actions";
+
 import "./favorite-list.scss";
 
-export class FavoriteList extends React.Component {
+const mapStateToProps = (state) => {
+  return { userData: state.userData };
+};
+
+class FavoriteList extends React.Component {
   constructor(props) {
     super(props);
     // Define the initial state:
@@ -15,81 +22,73 @@ export class FavoriteList extends React.Component {
       delete: "d-none",
     };
   }
-  checkFavoriteList(user, movieId) {
-    let token = localStorage.getItem("token");
-    axios
-      .get(`https://fathomless-plains-90381.herokuapp.com/users/${user}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        const foundMovie = response.data.FavoriteMovies.find((element) => element === movieId);
-        if (foundMovie) {
-          this.setState({
-            add: "d-none",
-            delete: " ",
-          });
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
+
+  checkFavoriteList() {
+    const foundMovie = this.props.userData.user.FavoriteMovies.find(
+      (element) => element === this.props.movie._id
+    );
+    if (foundMovie) {
+      this.setState({
+        add: "d-none",
+        delete: " ",
       });
+    }
   }
-  addMovieToFavoriteList(user, movie) {
-    let token = localStorage.getItem("token");
+
+  addMovieToFavoriteList() {
     this.setState({
       add: "d-none",
       delete: " ",
     });
     axios
       .post(
-        `https://fathomless-plains-90381.herokuapp.com/users/${user}/FavoriteMovies/${movie._id}`,
+        `https://fathomless-plains-90381.herokuapp.com/users/${this.props.userData.user.Username}/FavoriteMovies/${this.props.movie._id}`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${this.props.userData.token}` },
         }
       )
       .then((response) => {
-        const data = response.data;
+        let addFavoriteMovie = { user: response.data, token: this.props.userData.token };
+        this.props.setUser(addFavoriteMovie);
       })
       .catch((response) => {
         console.error(response);
       });
   }
 
-  removeMoviefromFavoriteList(user, movie) {
-    let token = localStorage.getItem("token");
+  removeMoviefromFavoriteList() {
     this.setState({
       add: " ",
       delete: "d-none",
     });
     axios
       .delete(
-        `https://fathomless-plains-90381.herokuapp.com/users/${user}/FavoriteMovies/${movie._id}`,
+        `https://fathomless-plains-90381.herokuapp.com/users/${this.props.userData.user.Username}/FavoriteMovies/${this.props.movie._id}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${this.props.userData.token}` },
         }
       )
       .then((response) => {
-        const data = response.data;
+        let removeFavoriteMovie = { user: response.data, token: this.props.userData.token };
+        this.props.setUser(removeFavoriteMovie);
       })
       .catch((response) => {
         console.error(response);
       });
   }
   componentDidMount() {
-    this.checkFavoriteList(this.props.user, this.props.movie._id);
+    this.checkFavoriteList();
   }
 
   render() {
-    const { movie, user } = this.props;
-
     return (
       <>
         {" "}
         <Button
           className={`mb-2  ${this.state.add}`}
           variant="outline-success"
-          onClick={() => this.addMovieToFavoriteList(user, movie)}
+          onClick={() => this.addMovieToFavoriteList()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +107,7 @@ export class FavoriteList extends React.Component {
         <Button
           className={`mb-2  ${this.state.delete}`}
           variant="outline-danger"
-          onClick={() => this.removeMoviefromFavoriteList(user, movie)}
+          onClick={() => this.removeMoviefromFavoriteList()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -131,18 +130,30 @@ export class FavoriteList extends React.Component {
 
 FavoriteList.propTypes = {
   movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
+    Title: PropTypes.string,
+    Description: PropTypes.string,
     Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Description: PropTypes.string,
-    }).isRequired,
+    }),
     Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
+      Name: PropTypes.string,
       Bio: PropTypes.string,
       Birth: PropTypes.string,
-    }).isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }).isRequired,
-  user: PropTypes.string,
+    }),
+    ImagePath: PropTypes.string,
+  }),
+  userData: PropTypes.shape({
+    User: PropTypes.shape({
+      _id: PropTypes.string,
+      Username: PropTypes.string,
+      Password: PropTypes.string,
+      Email: PropTypes.string,
+      Birthday: PropTypes.string,
+      FavoriteMovies: PropTypes.array,
+    }),
+    token: PropTypes.string,
+  }),
 };
+
+export default connect(mapStateToProps, { setUser })(FavoriteList);

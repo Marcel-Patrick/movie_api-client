@@ -1,6 +1,6 @@
 # movie_api-client
 
-## This is my Movie Application (Client-Sinde Part)
+## This is the Client-Sinde Part of my Movie Application
 
 ### Objective:
 

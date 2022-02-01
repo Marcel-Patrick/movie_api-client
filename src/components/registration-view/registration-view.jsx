@@ -1,7 +1,6 @@
 // registration-view.jsx
 
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -13,7 +12,7 @@ import { Link } from "react-router-dom";
 
 import "./registration-view.scss";
 
-export function RegistrationView(props) {
+export function RegistrationView() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -90,7 +89,7 @@ export function RegistrationView(props) {
         })
         .catch((response) => {
           console.error(response);
-          alert("Registration not possible!");
+          alert("Registration not possible, Usermame already exist!");
         });
     }
   };
@@ -181,11 +180,3 @@ export function RegistrationView(props) {
     </CardGroup>
   );
 }
-
-RegistrationView.propTypes = {
-  username: PropTypes.string,
-  password: PropTypes.string,
-  passwordRepeat: PropTypes.string,
-  email: PropTypes.string,
-  birthday: PropTypes.string,
-};

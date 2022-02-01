@@ -4,18 +4,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { connect } from "react-redux";
 
 import "./genre-view.scss";
 
-export class GenreView extends React.Component {
+let mapStateToProps = (state) => {
+  return { genreDetails: state.genreDetails };
+};
+
+class GenreView extends React.Component {
   render() {
-    const { genre, onBackClick } = this.props;
+    const { genreDetails, onBackClick } = this.props;
 
     return (
       <Card>
         <Card.Body>
-          <Card.Title>{genre.Name}</Card.Title>
-          <Card.Text>{genre.Description}</Card.Text>
+          <Card.Title>{genreDetails.Name}</Card.Title>
+          <Card.Text>{genreDetails.Description}</Card.Text>
         </Card.Body>
         <Card.Body>
           <Button
@@ -33,9 +38,11 @@ export class GenreView extends React.Component {
 }
 
 GenreView.propTypes = {
-  genre: PropTypes.shape({
-    Name: PropTypes.string.isRequired,
+  genreDetails: PropTypes.shape({
+    Name: PropTypes.string,
     Description: PropTypes.string,
-  }).isRequired,
+  }),
   onBackClick: PropTypes.func,
 };
+
+export default connect(mapStateToProps)(GenreView);
