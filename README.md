@@ -4,15 +4,13 @@
 
 ### Objective:
 
----
-
 **Using React, build the client-side for an application called myFlix based on its existing server-side code (REST API and database).**
+
+---
 
 ### Technical Requirements:
 
 ### Required:
-
----
 
 - The application must be a single-page application (SPA)
 - The application must use state routing to navigate between views and share URLs
@@ -25,24 +23,20 @@
 - The application must contain a mix of class components and function components
 - The application may be hosted online
 
+---
+
 ### Design Criteria:
 
 #### User Stories:
-
----
 
 - As a user, I want to be able to access information on movies, directors, and genres so that I can learn more about movies I’ve watched or am interested in.
 - As a user, I want to be able to create a profile so I can save data about my favorite movies.
 
 #### Features & Requirements:
 
----
-
 The feature requirements below were extracted from the user stories listed above. Your project will only be approved if the following “essential” feature requirements are implemented in your Achievement project.
 
 #### Essential Views and Features:
-
----
 
 Main view:
 
@@ -80,9 +74,9 @@ Profile view:
 - Displays favorite movies
 - Allows users to remove a movie from their list of favorites
 
-#### Optional Views and Features:
-
 ---
+
+#### Optional Views and Features:
 
 Single movie view and all movies views:
 
@@ -97,9 +91,9 @@ Profile view, single movie view, and all movies view:
 
 - Allow users to create a “To Watch” list in addition to their “Favorite Movies” list
 
-### Setup:
-
 ---
+
+### Setup:
 
 1. Installing the Right Dependencies
    Dependencies are what your application needs for both development and production, while development dependencies are only necessary during development.
@@ -150,3 +144,12 @@ Profile view, single movie view, and all movies view:
   _After the installation is complete, import this dependency as follows: <br/>_
   _import { devToolsEnhancer } from 'redux-devtools-extension'; and then adjust the line where the store is being created to: <br/>_
   _const store = createStore(moviesApp, devToolsEnhancer());_
+
+---
+
+## MovieFlex after-login page:
+
+_Since it was nit part of the task, this App has not been deployed and no live version was created_
+
+An after-login page wound looking like:
+![WelcomPage](./src/img/Screenshot_MovieFlexReact.png)
